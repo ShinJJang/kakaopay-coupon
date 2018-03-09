@@ -17,7 +17,7 @@
 ### Run in development
 #### Run front server 
 ```
-npm ...
+npm run dev
 ```
 
 #### Run backend server
@@ -29,6 +29,11 @@ npm ...
 1. Sync gradle
 2. Run coupon:....
 ``` 
+
+Project structure
+```
+# tree with comment
+```
 
 ## Requirement
 * 웹어플리케이션 개발언어는 Java 또는 Scala, 프레임워크는 Spring-boot/PlayFramework/Akka-HTTP 활용

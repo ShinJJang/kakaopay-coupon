@@ -26,3 +26,19 @@ hs_err_pid*
 *.iws
 *.iml
 *.ipr
+
+### frontend ###
+src/main/resources/templates/
+src/main/resources/static/
+frontend/dist/
+frontend/node/
+frontend/node_modules/
+frontend/npm-debug.log
+frontend/target
+frontend/test-output
+frontend/test/e2e/reports
+frontend/test/unit/coverage
+frontend/yarn-error.log
+frontend/yarn.lock
+security/target/
+selenium-debug.log
