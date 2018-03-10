@@ -4,6 +4,8 @@ import com.kakaopay.coupon.core.CodeGenerator;
 import com.kakaopay.coupon.model.Coupon;
 import com.kakaopay.coupon.repository.CouponRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -19,12 +21,24 @@ public class CouponService {
     @Autowired
     private CodeGenerator codeGenerator;
 
-    static final int TRY_COUNT_IN_COLLISION = 5;
+    private static final int TRY_COUNT_IN_COLLISION = 5;
 
+    @Transactional(readOnly = true)
+    public Coupon get(Long id) {
+        return couponRepo.getOne(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Coupon> getList(Pageable pageable) {
+        return couponRepo.findAll(pageable);
+    }
+
+    @Transactional(readOnly = true)
     public List<Coupon> getByEmail(String email) {
         return couponRepo.findByEmail(email);
     }
 
+    @Transactional(readOnly = true)
     public Coupon getLastByEmail(String email) {
         return couponRepo.findByEmailOrderByIdDesc(email);
     }
@@ -40,6 +54,7 @@ public class CouponService {
         return coupon;
     }
 
+    @Transactional(readOnly = true)
     private String generateUniqueCode() {
         int tryCount = TRY_COUNT_IN_COLLISION;
         String code = null;
