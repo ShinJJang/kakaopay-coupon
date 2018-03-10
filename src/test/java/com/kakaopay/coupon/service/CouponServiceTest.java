@@ -43,7 +43,14 @@ public class CouponServiceTest {
     @Test
     public void getList() {
         Page<Coupon> coupons = couponService.getList(new PageRequest(1, 10));
+        assertThat(coupons).isNotNull();
         log.info("getList: " + coupons.getContent());
     }
 
+    @Test
+    public void get() {
+        Coupon coupon = couponService.get(1L);
+        assertThat(coupon).isNotNull();
+        log.info("get: " + coupon);
+    }
 }

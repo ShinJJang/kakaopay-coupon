@@ -25,7 +25,7 @@ public class CouponService {
 
     @Transactional(readOnly = true)
     public Coupon get(Long id) {
-        return couponRepo.getOne(id);
+        return couponRepo.findOne(id);
     }
 
     @Transactional(readOnly = true)
@@ -45,9 +45,12 @@ public class CouponService {
 
     @Transactional
     public Coupon create(String email) {
+        if (StringUtils.isEmpty(email)) {
+            throw new RuntimeException("Fail to create Coupon. Email is null or empty.");
+        }
         String code = generateUniqueCode();
         if (StringUtils.isEmpty(code)) {
-            throw new RuntimeException("Fail to create Coupon. Code is null or empty string.");
+            throw new RuntimeException("Fail to create Coupon. Code is null or empty.");
         }
         Coupon coupon = new Coupon(email, code);
         couponRepo.save(coupon);
