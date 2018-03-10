@@ -28,7 +28,7 @@ public class CouponControllerTest {
     private CouponService couponService;
 
     @Before
-    public void fixture() {
+    public void init() {
         Coupon dummy = couponService.create("1@gmail.com");
         log.info("dummy: " + dummy);
 
