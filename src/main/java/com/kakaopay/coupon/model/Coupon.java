@@ -1,9 +1,11 @@
 package com.kakaopay.coupon.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.kakaopay.coupon.error.exception.InvalidEmailException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -29,5 +31,13 @@ public class Coupon {
         this.email = email;
         this.code = code;
         this.createdAt = new Date();
+    }
+
+    @Data
+    @NoArgsConstructor
+    public static class CouponCreateDTO {
+        @NonNull
+        @Email(message = InvalidEmailException.errorCode)
+        String email;
     }
 }

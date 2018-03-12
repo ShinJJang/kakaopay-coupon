@@ -1,8 +1,11 @@
 package com.kakaopay.coupon.service;
 
 import com.kakaopay.coupon.core.CodeGenerator;
+import com.kakaopay.coupon.error.exception.EmptyEmailException;
+import com.kakaopay.coupon.error.exception.NotExistCouponException;
 import com.kakaopay.coupon.model.Coupon;
 import com.kakaopay.coupon.repository.CouponRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +15,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class CouponService {
 
@@ -25,7 +29,11 @@ public class CouponService {
 
     @Transactional(readOnly = true)
     public Coupon get(Long id) {
-        return couponRepo.findOne(id);
+        Coupon coupon = couponRepo.findOne(id);
+        if (coupon == null) {
+            throw new NotExistCouponException("Not exist coupon with id : " + id);
+        }
+        return coupon;
     }
 
     @Transactional(readOnly = true)
@@ -38,22 +46,26 @@ public class CouponService {
         return couponRepo.findByEmail(email);
     }
 
+    // Using for test
     @Transactional(readOnly = true)
-    public Coupon getLastByEmail(String email) {
+    protected Coupon getLastByEmail(String email) {
         return couponRepo.findByEmailOrderByIdDesc(email);
     }
 
     @Transactional
     public Coupon create(String email) {
         if (StringUtils.isEmpty(email)) {
-            throw new RuntimeException("Fail to create Coupon. Email is null or empty.");
+            log.info("CouponService - create : empty email");
+            throw new EmptyEmailException("Fail to create Coupon. Email is null or empty.");
         }
         String code = generateUniqueCode();
         if (StringUtils.isEmpty(code)) {
+            log.warn("CouponService - create : empty code");
             throw new RuntimeException("Fail to create Coupon. Code is null or empty.");
         }
         Coupon coupon = new Coupon(email, code);
         couponRepo.save(coupon);
+        log.info("CouponService - create : success with coupon code : {}", coupon.getCode());
         return coupon;
     }
 
