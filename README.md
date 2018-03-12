@@ -36,6 +36,17 @@ Project structure
 # tree with comment
 ```
 
+----
+
+## API Specifications
+| Action | API | Parameter | Body | Success Response | Fail Response |
+|--------|-----|-----------|------|------------------|---------------|
+| Get coupon with ID | GET /api/v1/coupon/{id}  | id=[Long] | N/A | Status 200 OK<br>{"id": 1, "email": "user@email.com", "code": "8io4-7KPN-dzc6-Ov6h", "createdAt": "2018-03-12 23:28:05"} | <ul><li>Invalid ID - Bad Request 400 : {"uri": "http://localhost:8080/api/v1/coupon/sdfdsf", "msg": "Argument type mismatch", "errorCode": "argument.type.mismatch"}</li><li>Not exist coupon with id - 404 Not found :  {"uri": "http://localhost:8080/api/v1/coupon/{id}", "msg": "Not exist coupon with id : {id}", "errorCode": "not.exist.coupon"}</li></ul>|
+| Get coupon List with pagination  | GET /api/v1/coupon[?page={}&size={}&sort={}]  | page=[Integer, default=1], size=[Integer, default=20], sort=[String, multiple property name with (desc or asc(defeault), seperator is comma(,)] | N/A | Status 200 OK<br>ex) /api/v1/coupon?page=2&size=1&sort=id,desc<br>{"content":[{"id":3,"email":"user@email.com","code":"XxPW-matM-j9BY-ON8n","createdAt":"2018-03-12 23:30:44"}],"last":false,"totalPages":5,"totalElements":5,"size":1,"number":2,"sort":[{"direction":"DESC","property":"id","ignoreCase":false,"nullHandling":"NATIVE","ascending":false,"descending":true}],"numberOfElements":1,"first":false} | <ul><li>Invalid page info - Bad Request 400 : {"uri": "http://localhost:8080/api/v1/coupon", "msg": "Pagination param is invalid", "errorCode": "invalid.pagination"}</li></ul>|
+| Create coupon  | POST /api/v1/coupon  | N/A | {"email": "user@email.com"} | Status 201 Created<br>{"id": 1, "email": "user@email.com", "code": "8io4-7KPN-dzc6-Ov6h", "createdAt": "2018-03-12 23:28:05"} | <ul><li>Null Body - 400 : {"uri": "http://localhost:8080/api/v1/coupon", "msg": "Required request body is missing", "errorCode": "null.body"}</li><li>Empty Email - 400 Bad Request : {"uri": "http://localhost:8080/api/v1/coupon", "msg": "Fail to create Coupon. Email is null or empty.", "errorCode": "empty.email"}</li><li>Invalid Email - Bad Request 400 : {"uri": "http://localhost:8080/api/v1/coupon", "msg": "Fail to create Coupon. Email format is invalid.", "errorCode": "invalid.email"}</li><li>415 Unsupported Media type : {"uri": "http://localhost:8080/api/v1/coupon", "msg": "Only support Content type 'application/json'", "errorCode": "not.json"}</li></ul>|
+
+----
+
 ## Requirement
 * 웹어플리케이션 개발언어는 Java 또는 Scala, 프레임워크는 Spring-boot/PlayFramework/Akka-HTTP 활용
 * 웹어플리케이션은 SPA (Single Page Application)로 개발되어야 함
@@ -63,17 +74,10 @@ Project structure
 - [ ] 프론트 구현
 - [ ] README 마무리하기
 
-- Further More
+## Further More
 - [ ] API Spec을 가독성 있게 하기
 - [ ] Production, Dev 프로필 분리
 - [ ] 배포를 가정하고 배포 자동화와 인프라 구조 고려하기
-
-## API Specifications
-| Action | API | Parameter | Body | Success Response | Fail Response |
-|--------|-----|-----------|------|------------------|---------------|
-| Get coupon with ID | GET /api/v1/coupon/{id}  | id=[Long] | N/A | Status 200 OK<br>{"id": 1, "email": "user@email.com", "code": "8io4-7KPN-dzc6-Ov6h", "createdAt": "2018-03-12 23:28:05"} | <ul><li>Invalid ID - Bad Request 400 : {"uri": "http://localhost:8080/api/v1/coupon/sdfdsf", "msg": "Argument type mismatch", "errorCode": "argument.type.mismatch"}</li><li>Not exist coupon with id - 404 Not found :  {"uri": "http://localhost:8080/api/v1/coupon/{id}", "msg": "Not exist coupon with id : {id}", "errorCode": "not.exist.coupon"}</li></ul>|
-| Get coupon List with pagination  | GET /api/v1/coupon[?page={}&size={}&sort={}]  | page=[Integer, default=1], size=[Integer, default=20], sort=[String, multiple property name with (desc or asc(defeault), seperator is comma(,)] | N/A | Status 200 OK<br>ex) /api/v1/coupon?page=2&size=1&sort=id,desc<br>{"content":[{"id":3,"email":"user@email.com","code":"XxPW-matM-j9BY-ON8n","createdAt":"2018-03-12 23:30:44"}],"last":false,"totalPages":5,"totalElements":5,"size":1,"number":2,"sort":[{"direction":"DESC","property":"id","ignoreCase":false,"nullHandling":"NATIVE","ascending":false,"descending":true}],"numberOfElements":1,"first":false} | <ul><li>Invalid page info - Bad Request 400 : {"uri": "http://localhost:8080/api/v1/coupon", "msg": "Pagination param is invalid", "errorCode": "invalid.pagination"}</li></ul>|
-| Create coupon  | POST /api/v1/coupon  | N/A | {"email": "user@email.com"} | Status 201 Created<br>{"id": 1, "email": "user@email.com", "code": "8io4-7KPN-dzc6-Ov6h", "createdAt": "2018-03-12 23:28:05"} | <ul><li>Null Body - 400 : {"uri": "http://localhost:8080/api/v1/coupon", "msg": "Required request body is missing", "errorCode": "null.body"}</li><li>Empty Email - 400 Bad Request : {"uri": "http://localhost:8080/api/v1/coupon", "msg": "Fail to create Coupon. Email is null or empty.", "errorCode": "empty.email"}</li><li>Invalid Email - Bad Request 400 : {"uri": "http://localhost:8080/api/v1/coupon", "msg": "Fail to create Coupon. Email format is invalid.", "errorCode": "invalid.email"}</li><li>415 Unsupported Media type : {"uri": "http://localhost:8080/api/v1/coupon", "msg": "Only support Content type 'application/json'", "errorCode": "not.json"}</li></ul>|
 
 ## Dependencies
 
