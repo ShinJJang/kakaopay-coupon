@@ -20,7 +20,8 @@
     <div v-if="hasMsg" class="msg-content">
       <el-alert
         :title="msg"
-        :type="isError">
+        :type="isError"
+        show-icon>
       </el-alert>
     </div>
   </div>
