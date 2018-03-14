@@ -31,6 +31,7 @@ public class CouponController {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/coupon", method = RequestMethod.GET)
     public Page<Coupon> getCouponListWithPage(Pageable pageable) {
+        log.info("getCouponListWithPage called : " + pageable);
         return couponService.getList(pageable);
     }
 
