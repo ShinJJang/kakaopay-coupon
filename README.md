@@ -72,9 +72,21 @@ Project structure
 - [x] Hello World API 테스트로 기폰 프로젝트 템플릿을 검증
 - [x] TDD 기반으로 API 구현
 - [ ] 프론트 구현
+    - [x] 라우팅
+    - [x] 레이아웃(sidebar vs header)
+    - [x] API로 데이터를 받아와 페이징
+    - [x] 이메일로 쿠폰 생성
+    - [ ] 이메일 검색
+    - [ ] Column 정렬
+    - [ ] Item size per page 변경
+    - [ ] 디자인
 - [ ] README 마무리하기
+    - [ ] 실행방법
+    - [ ] 기술스택 명시    
+    - [ ] 폴더 트리 설명
 
 ## Further More
+- [ ] 쿠폰 생성 시, 이메일에 쿠폰 보내기
 - [ ] API Spec을 가독성 있게 하기
 - [ ] Production, Dev 프로필 분리
 - [ ] 배포를 가정하고 배포 자동화와 인프라 구조 고려하기
@@ -86,6 +98,8 @@ Project structure
 - Why Vue.js
 - Why Webpack
 - Why H2 DB
+- Is page button on top or bottom of contents?
+    - http://blogs.wayne.edu/web/2012/03/16/a-better-return-to-top-experience/
 
 ## License
 MIT License

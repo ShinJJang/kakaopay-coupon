@@ -1,23 +1,29 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <vue-progress-bar></vue-progress-bar>
+    <el-container>
+      <header-component></header-component>
+      <el-main>
+        <router-view/>
+      </el-main>
+      <el-footer>
+        © 2018 Shinjjang
+        <a href="https://github.com/ShinJJang/kakaopay-coupon" target="_blank">Github</a>
+      </el-footer>
+    </el-container>
   </div>
 </template>
 
 <script>
+import Header from '@/components/Header'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    'header-component': Header
+  }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
