@@ -6,7 +6,10 @@
       <el-main>
         <router-view/>
       </el-main>
-      <el-footer>Footer</el-footer>
+      <el-footer>
+        © 2018 Shinjjang 
+        <a href="https://github.com/ShinJJang/kakaopay-coupon" target="_blank">Github</a>
+      </el-footer>
     </el-container>
   </div>
 </template>
