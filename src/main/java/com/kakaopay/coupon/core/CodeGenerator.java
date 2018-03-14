@@ -2,12 +2,8 @@ package com.kakaopay.coupon.core;
 
 import org.springframework.stereotype.Component;
 
-import java.security.SecureRandom;
-import java.util.Random;
 
-/*
-    https://codereview.stackexchange.com/questions/159421/generate-16-digit-unique-code-like-product-serial
- */
+// https://codereview.stackexchange.com/questions/159421/generate-16-digit-unique-code-like-product-serial
 @Component
 public class CodeGenerator {
 
@@ -15,10 +11,10 @@ public class CodeGenerator {
     private static final int COUPON_SPACEING = 4;
     private static final char COUPON_SPACER_CHAR = '-';
     protected static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
-    private final Random rng = new SecureRandom();
+    private final Well512 rng = new Well512();
 
     char randomChar(){
-        return ALPHABET.charAt(rng.nextInt(ALPHABET.length()));
+        return ALPHABET.charAt(rng.next(ALPHABET.length()));
     }
 
     String randomUUID(int length, int spacing, char spacerChar){

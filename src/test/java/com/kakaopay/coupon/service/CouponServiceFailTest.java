@@ -47,6 +47,6 @@ public class CouponServiceFailTest {
     public void create_collision_durability_max_5() {
         given(codeGenerator.generateCode()).willReturn("same code");
         couponService.create("makao.rule@gmail.com");
-        Coupon coupon = couponService.create("makao.rule@gmail.com");
+        couponService.create("makao.rule@gmail.com"); // occur collision
     }
 }
