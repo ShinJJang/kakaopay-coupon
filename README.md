@@ -27,7 +27,7 @@ npm run dev
 
 # Build for production
 # **important** dist to spring resources dir
-# After build, when backend server can serve at localhost:8080.
+# After build, backend server can serve at localhost:8080.
 npm run build 
 ```
 
@@ -134,13 +134,11 @@ Webpack            |3.0+ -->
     - [x] 라우팅
     - [x] 레이아웃(sidebar vs header)
     - [x] API로 데이터를 받아와 페이징
-    - [x] 이메일로 쿠폰 생성    
-    - [ ] Column 정렬
+    - [x] 이메일로 쿠폰 생성
     - [ ] Item size per page 변경
-    - [ ] 디자인
 - [ ] README 마무리하기
     - [x] 실행방법
-    - [ ] 기술스택 명시    
+    - [ ] 기술스택 명시
     - [x] 폴더 트리 설명
 
 ## Further More

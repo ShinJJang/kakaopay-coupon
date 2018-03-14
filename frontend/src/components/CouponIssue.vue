@@ -53,6 +53,7 @@ export default {
         .then((result) => {
           this.msg = this.email + '으로 쿠폰이 발급 되었습니다.'
           this.errorCode = ''
+          this.$emit('coupon-issued')
         }).catch((error) => {
           this.msg = error.response.data.msg
           this.errorCode = error.response.data.errorCode

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <coupon-issue v-on:coupon-issued="reload"></coupon-issue>
     <h1>쿠폰 목록</h1>
     <el-pagination
       class="pagination"
@@ -45,11 +46,12 @@
 
 <script>
 import BackToTop from 'vue-backtotop'
+import CouponIssue from '@/components/CouponIssue'
 
 export default {
   name: 'CouponList',
   components: {
-    BackToTop
+    BackToTop, CouponIssue
   },
   data: function () {
     return {
@@ -57,7 +59,8 @@ export default {
       itemSizePerPage: 15,
       currentPage: 1,
       totalPages: 1,
-      totalItems: 1
+      totalItems: 1,
+      numberOfElements: 0
     }
   },
   computed: {
@@ -75,6 +78,7 @@ export default {
           this.couponList = result.data.content
           this.totalPages = result.data.totalPages
           this.totalItems = result.data.totalElements
+          this.numberOfElements = result.data.numberOfElements
         })
     },
     handleSizeChange (val) {
@@ -83,6 +87,14 @@ export default {
     handleCurrentChange (val) {
       this.page = val
       this.getCouponList(this.currentPage, this.itemSizePerPage)
+    },
+    isNeedReload: function () {
+      return this.numberOfElements !== this.itemSizePerPage
+    },
+    reload: function () {
+      if (this.isNeedReload()) {
+        this.getCouponList(this.currentPage, this.itemSizePerPage)
+      }
     }
   },
   beforeMount () {
