@@ -48,7 +48,7 @@ import BackToTop from 'vue-backtotop'
 
 export default {
   name: 'CouponList',
-  components: { 
+  components: {
     BackToTop
   },
   data: function () {
@@ -67,13 +67,11 @@ export default {
   },
   methods: {
     getCouponList: function (page, size) {
-      console.log(page, size)
       const zeroBasedPage = page - 1
       const baseURI = 'http://localhost:8080'
-      const param = (page !== undefined || size !== undefined) ? `?page=${zeroBasedPage}&size=${size}` : ""
+      const param = (page !== undefined || size !== undefined) ? `?page=${zeroBasedPage}&size=${size}` : ''
       this.$http.get(`${baseURI}/api/v1/coupon` + param)
         .then((result) => {
-          console.log(result)
           this.couponList = result.data.content
           this.totalPages = result.data.totalPages
           this.totalItems = result.data.totalElements
@@ -83,7 +81,6 @@ export default {
       console.log(`${val} items per page`)
     },
     handleCurrentChange (val) {
-      console.log(`current page: ${val}`)
       this.page = val
       this.getCouponList(this.currentPage, this.itemSizePerPage)
     }
@@ -97,5 +94,5 @@ export default {
 <style>
 .pagination {
   text-align: center;
-} 
+}
 </style>
