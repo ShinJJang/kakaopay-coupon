@@ -1,7 +1,7 @@
 # kakaopay-coupon
 > 2018 카카오페이 공채 경력 서버 과제
 
-사용자로부터 이메일 주소를 입력으로 받아서 16자리의 알파벳과 숫자로 이루어진 **중복없는** 쿠폰 번호를 발급하고 발급된 쿠폰 정보를 같은 페이지에 리스팅하는 웹어플리케이션 개발
+사용자로부터 이메일 주소를 입력으로 받아서 16자리의 알파벳과 숫자로 이루어진 **중복없는** 쿠폰 번호를 발급하고 발급된 쿠폰 정보를 **같은** 페이지에 리스팅하는 웹어플리케이션 개발
 
 ## Getting Started
 
@@ -10,31 +10,63 @@
 - Java 1.8.x
 - Lombok plugin
 
-### Run in production 
-```
-./graldlew spring-boot:run
-```
-
 ### Run in development
 #### Run front server 
-```
+``` bash
+# Change to frontend root directory
+cd /frontend
+
+# When use yarn, install dependencies
+yarn install 
+
+# When use npm, install dependencies
+npm install 
+
+# Serve in dev mode, with hot reload at localhost:8081
 npm run dev
+
+# Build for production
+# **important** dist to spring resources dir
+# After build, when backend server can serve at localhost:8080.
+npm run build 
 ```
 
 #### Run backend server
-```
+``` bash
 # Using terminal
-./gradlew ...
+./gradlew bootRun
 
 # Using IntelliJ
 1. Sync gradle
-2. Run coupon:....
-``` 
+2. Run Application
+```
 
-Project structure
+### Project folder structure
+``` bash
+./tree kakaopay-coupon -L 2 -d -C
+kakaopay-coupon
+├── frontend    -------> # frontend root
+│   ├── build   -------> # webpack config
+│   ├── config  -------> # frontend environment profile
+│   ├── node_modules
+│   ├── src     -------> # frontend source
+│   ├── static  -------> # frontend static file
+│   └── test
+├── gradle
+│   └── wrapper
+├── out         -------> # backend compile output
+│   ├── production
+│   └── test
+└── src         -------> # backend source
+    ├── main
+    └── test
 ```
-# tree with comment
-```
+
+<!-- ### Dependence
+Dependence         |Version
+-------------------|-------
+Vue                |2.0+
+Webpack            |3.0+ -->
 
 ----
 
@@ -62,6 +94,33 @@ Project structure
 * README.md 파일에 문제해결 전략 및 프로젝트 빌드, 실행 방법 명시 
 * Unit Test 코드 작성 
 
+## 문제 해결
+- 쿠폰번호 생성은 라이브러리 사용없이 직접 구현
+    - 기본 아이디어
+        - 쿠폰 코드에 가능한 글자 [0-9a-zA-Z]로, 61(=9+26*2) 글자를 한 String 변수로 만듬
+        - 난수를 만들어 위 변수의 index로 부터 쿠폰 코드 한자리를 가져옴
+        - 이것을 쿠폰 코드 자리수인 16번을 반복하여 코드를 만듬
+    - Index를 고르는 랜덤한 난수가 중요
+    - 난수 생성기(Random Number Generator, RNG)        
+        - 완벽한 난수 생성기, True RNG는 하드웨어(전자기 소음, 방사선 원소, 원자 물리적 현상)를 사용해야함
+        - 그래서 아주 긴 시간이 걸리더라도 결국 반복되는 의사 난수 생성기(Pseudorandom Number Generator, PRNG)가 필요
+        - Java의 난수 생성기
+            - JCA에서 여러 provider 중에서 결정하여 사용함
+                - http://d2.naver.com/helloworld/197937
+            - Secure Random library는 암호학적으로 안전한 PRNG(cryptographically secure PRNG, CSPRNG)를 사용
+                - 블룸 블룸 슙(BBS)
+    - 나이브한 아이디어
+        - 하나의 Email에 하나의 쿠폰이 발행되므로, Email을 시드로 사용
+        - epoch 타임을 shift 연산하여 시드로 사용
+    - 현실
+        - 라이브러리를 생성하지 않고 만들어야 함        
+        - 나이브한 방법으로 했을 때, 어느 한 입력값으로부터 쿠폰 코드가 유추된다면?
+            - 문제 없음: (공돌이 생각) 어차피 이메일에 하나의 쿠폰이 발급된다면, 쿠폰 사용 시 이메일 검사를 할 것이다.
+            - 문제 있음: 기존 이메일 정보를 활용할 수 없는 자회사의 새로운 서비스 프로모션이거나 혹은 제휴사, 오프라인에서 제휴하는 이벤트라면 이메일로 검증을 할 수 없다.
+        - WELL이나 메르센 트위스트(CSPRNG는 아니지만)을 구현하는게 맞다고 생각됨
+        - 결론: WELL512와 Random seed를 위한 LGC 구현
+
+
 ## TODO
 - [x] README 초안 작성
 - [x] 적정 기술 선정
@@ -75,23 +134,21 @@ Project structure
     - [x] 라우팅
     - [x] 레이아웃(sidebar vs header)
     - [x] API로 데이터를 받아와 페이징
-    - [x] 이메일로 쿠폰 생성
-    - [ ] 이메일 검색
+    - [x] 이메일로 쿠폰 생성    
     - [ ] Column 정렬
     - [ ] Item size per page 변경
     - [ ] 디자인
 - [ ] README 마무리하기
-    - [ ] 실행방법
+    - [x] 실행방법
     - [ ] 기술스택 명시    
-    - [ ] 폴더 트리 설명
+    - [x] 폴더 트리 설명
 
 ## Further More
 - [ ] 쿠폰 생성 시, 이메일에 쿠폰 보내기
 - [ ] API Spec을 가독성 있게 하기
 - [ ] Production, Dev 프로필 분리
 - [ ] 배포를 가정하고 배포 자동화와 인프라 구조 고려하기
-
-## Dependencies
+- [ ] 외부 API로 쿠폰의 상태를 업데이트 해야할 상황을 생각해보기
 
 ## 고려한 사항
 - Why Java 1.8 

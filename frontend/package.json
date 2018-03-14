@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "version": "1.0.0",
-  "description": "kakaopay coupon frontend",
+  "description": "Kakaopay coupon frontend",
   "author": "ShinJJang <makao.rule@gmail.com>",
   "private": true,
   "scripts": {
