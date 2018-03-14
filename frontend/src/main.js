@@ -5,9 +5,12 @@ import App from './App'
 import router from './router'
 import VueProgressBar from 'vue-progressbar'
 import ElementUI from 'element-ui'
+import locale from 'element-ui/lib/locale/lang/en'
 import 'element-ui/lib/theme-chalk/index.css'
+import axios from 'axios'
 
 Vue.config.productionTip = false
+Vue.prototype.$http = axios
 
 const options = {
   color: '#abcdef',
@@ -22,7 +25,7 @@ const options = {
   inverse: false
 }
 Vue.use(VueProgressBar, options)
-Vue.use(ElementUI)
+Vue.use(ElementUI, { locale })
 
 /* eslint-disable no-new */
 new Vue({

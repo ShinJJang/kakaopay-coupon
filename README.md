@@ -72,9 +72,15 @@ Project structure
 - [x] Hello World API 테스트로 기폰 프로젝트 템플릿을 검증
 - [x] TDD 기반으로 API 구현
 - [ ] 프론트 구현
+    - [x] 라우팅
+    - [x] 레이아웃(sidebar vs header)
+    - [x] API로 데이터를 받아와 페이징
+    - [ ] 이메일로 쿠폰 생성
+    - [ ] 디자인
 - [ ] README 마무리하기
 
 ## Further More
+- [ ] 쿠폰 생성 시, 이메일에 쿠폰 보내기
 - [ ] API Spec을 가독성 있게 하기
 - [ ] Production, Dev 프로필 분리
 - [ ] 배포를 가정하고 배포 자동화와 인프라 구조 고려하기

@@ -4,16 +4,13 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 // route-level code splitting
-const HelloWorld = () => import('@/components/HelloWorld')
 const CouponList = () => import('@/components/CouponList')
 const CouponIssue = () => import('@/components/CouponIssue')
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      path: '/', redirect: { name: 'CouponList' }
     },
     {
       path: '/coupon/list',
