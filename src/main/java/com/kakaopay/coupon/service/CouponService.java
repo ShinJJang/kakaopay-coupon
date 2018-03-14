@@ -1,6 +1,8 @@
 package com.kakaopay.coupon.service;
 
 import com.kakaopay.coupon.core.CodeGenerator;
+import com.kakaopay.coupon.error.exception.CodeCollisionException;
+import com.kakaopay.coupon.error.exception.EmptyCodeException;
 import com.kakaopay.coupon.error.exception.EmptyEmailException;
 import com.kakaopay.coupon.error.exception.NotExistCouponException;
 import com.kakaopay.coupon.model.Coupon;
@@ -61,7 +63,7 @@ public class CouponService {
         String code = generateUniqueCode();
         if (StringUtils.isEmpty(code)) {
             log.warn("CouponService - create : empty code");
-            throw new RuntimeException("Fail to create Coupon. Code is null or empty.");
+            throw new EmptyCodeException("Fail to create Coupon. Code is null or empty.");
         }
         Coupon coupon = new Coupon(email, code);
         couponRepo.save(coupon);
@@ -80,7 +82,7 @@ public class CouponService {
             }
             tryCount--;
             if (tryCount == 0) {
-                throw new RuntimeException("Fail to create Coupon. Collision occur more than 5 in code generator.");
+                throw new CodeCollisionException("Fail to create Coupon. Collision occur more than 5 in code generator.");
             }
         }
         return code;

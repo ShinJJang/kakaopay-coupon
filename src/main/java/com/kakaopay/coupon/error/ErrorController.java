@@ -1,8 +1,6 @@
 package com.kakaopay.coupon.error;
 
-import com.kakaopay.coupon.error.exception.EmptyEmailException;
-import com.kakaopay.coupon.error.exception.InvalidEmailException;
-import com.kakaopay.coupon.error.exception.NotExistCouponException;
+import com.kakaopay.coupon.error.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
@@ -48,6 +46,15 @@ public class ErrorController {
     @ResponseBody
     public ErrorInfo handleInvalidEmail(HttpServletRequest req, InvalidEmailException ex) {
         return new ErrorInfo(req.getRequestURL().toString(), ex.getLocalizedMessage(), InvalidEmailException.errorCode);
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler({EmptyCodeException.class, CodeCollisionException.class})
+    @ResponseBody
+    public ErrorInfo handleFailToGenerateCode(HttpServletRequest req, Exception ex) {
+        String errorCode = (ex instanceof EmptyCodeException) ?
+                EmptyCodeException.errorCode : CodeCollisionException.errorCode;
+        return new ErrorInfo(req.getRequestURL().toString(), ex.getLocalizedMessage(), errorCode);
     }
 
     /*
