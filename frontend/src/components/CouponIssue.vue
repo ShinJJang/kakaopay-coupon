@@ -21,6 +21,7 @@
       <el-alert
         :title="msg"
         :type="isError"
+        :closable="false"
         show-icon>
       </el-alert>
     </div>
