@@ -39,7 +39,7 @@
         </el-table>
       </template>
     </div>
-    <back-to-top text="Back to top" visibleOffset="150"></back-to-top>
+    <back-to-top text="Back to top" visibleOffset="50"></back-to-top>
   </div>
 </template>
 
