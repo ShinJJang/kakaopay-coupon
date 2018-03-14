@@ -1,6 +1,16 @@
 <template>
   <div>
     <h1>쿠폰 목록</h1>
+    <el-pagination
+      class="pagination"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page.sync="currentPage"
+      :page-size="itemSizePerPage"
+      layout="prev, pager, next, jumper"
+      :total="totalItems">
+    </el-pagination>
+    <!-- TODO custom item size per page -->
     <div v-if="hasResult">
       <template>
         <el-table
@@ -29,26 +39,22 @@
         </el-table>
       </template>
     </div>
-    <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page.sync="currentPage"
-          :page-size="itemSizePerPage"
-          layout="prev, pager, next, jumper"
-          :total="totalItems">
-        </el-pagination>
+    <back-to-top text="Back to top" visibleOffset="150"></back-to-top>
   </div>
 </template>
 
 <script>
+import BackToTop from 'vue-backtotop'
+
 export default {
   name: 'CouponList',
-  components: {    
+  components: { 
+    BackToTop
   },
   data: function () {
     return {
       couponList: [],
-      itemSizePerPage: 5,
+      itemSizePerPage: 15,
       currentPage: 1,
       totalPages: 1,
       totalItems: 1
@@ -89,4 +95,7 @@ export default {
 </script>
 
 <style>
+.pagination {
+  text-align: center;
+} 
 </style>

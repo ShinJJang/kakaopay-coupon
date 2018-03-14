@@ -92,6 +92,8 @@ Project structure
 - Why Vue.js
 - Why Webpack
 - Why H2 DB
+- Is page button on top or bottom of contents?
+    - http://blogs.wayne.edu/web/2012/03/16/a-better-return-to-top-experience/
 
 ## License
 MIT License
