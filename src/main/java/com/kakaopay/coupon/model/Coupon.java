@@ -20,6 +20,7 @@ public class Coupon {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NonNull
+    @Column(unique = true)
     private String email;
     @NonNull
     @Column(unique = true)

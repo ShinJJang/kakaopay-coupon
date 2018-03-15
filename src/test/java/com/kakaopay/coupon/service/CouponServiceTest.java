@@ -18,17 +18,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class CouponServiceTest {
 
+    private static boolean setUpIsDone = false;
+
     @Autowired
     private CouponService couponService;
 
     @Before
     public void init() {
-        Coupon dummy = couponService.create("1@gmail.com");
+        if (setUpIsDone) {
+            return;
+        }
+
+        Coupon dummy = couponService.create("user@gmail.com");
         log.info("dummy: " + dummy);
 
         Coupon checkDummy = couponService.get(1L);
         log.info("check dummy: " + checkDummy);
         assertThat(checkDummy).isNotNull();
+
+        setUpIsDone = true;
     }
 
     @Test
@@ -36,21 +44,12 @@ public class CouponServiceTest {
         Coupon coupon = couponService.create("makao.rule@gmail.com");
         assertThat(coupon).isNotNull();
 
-        Coupon couponFromDB = couponService.getLastByEmail("makao.rule@gmail.com");
+        Coupon couponFromDB = couponService.getByEmail("makao.rule@gmail.com");
         assertThat(couponFromDB).isNotNull();
         log.info("db: " + couponFromDB.getCreatedAt().getTime() + ", init: " + coupon.getCreatedAt().getTime());
         // In assertJ, timestamp is different with date
         assertThat(couponFromDB.getCreatedAt().getTime()).isEqualTo(coupon.getCreatedAt().getTime());
         assertThat(couponFromDB).isEqualToIgnoringGivenFields(coupon, "createdAt");
-    }
-
-    @Test
-    public void getByEmail() {
-        String email = "makao.rule@gmail.com";
-        Coupon coupon = couponService.getLastByEmail(email);
-        assertThat(coupon).isNotNull();
-        log.info("getByEmail: " + coupon);
-        assertThat(coupon.getEmail()).isEqualTo(email);
     }
 
     @Test

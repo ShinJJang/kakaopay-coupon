@@ -48,6 +48,13 @@ public class ErrorController {
         return new ErrorInfo(req.getRequestURL().toString(), ex.getLocalizedMessage(), InvalidEmailException.errorCode);
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DuplicateEmailException.class)
+    @ResponseBody
+    public ErrorInfo handleDuplicateEmail(HttpServletRequest req, DuplicateEmailException ex) {
+        return new ErrorInfo(req.getRequestURL().toString(), ex.getLocalizedMessage(), DuplicateEmailException.errorCode);
+    }
+
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({EmptyCodeException.class, CodeCollisionException.class})
     @ResponseBody

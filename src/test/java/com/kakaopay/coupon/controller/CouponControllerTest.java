@@ -22,6 +22,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CouponControllerTest {
 
+    private static boolean setUpIsDone = false;
+
     @Autowired
     private TestRestTemplate restTemplate;
 
@@ -30,12 +32,18 @@ public class CouponControllerTest {
 
     @Before
     public void init() {
+        if (setUpIsDone) {
+            return;
+        }
+
         Coupon dummy = couponService.create("1@gmail.com");
         log.info("dummy: " + dummy);
 
         Coupon checkDummy = couponService.get(1L);
         log.info("check dummy: " + checkDummy);
         assertThat(checkDummy).isNotNull();
+
+        setUpIsDone = true;
     }
 
     @Test

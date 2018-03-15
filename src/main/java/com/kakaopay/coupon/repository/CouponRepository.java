@@ -9,9 +9,8 @@ import java.util.List;
 @Repository
 public interface CouponRepository extends JpaRepository<Coupon, Long> {
 
-    List<Coupon> findByEmail(String email);
-    Coupon findByEmailOrderByIdDesc(String email);
-    Coupon findByCode(String code);
+    Coupon findByEmail(String email);
 
     boolean existsByCode(String code);
+    boolean existsByEmail(String email);
 }

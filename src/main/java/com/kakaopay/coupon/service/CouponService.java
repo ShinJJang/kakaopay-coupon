@@ -1,10 +1,7 @@
 package com.kakaopay.coupon.service;
 
 import com.kakaopay.coupon.core.CodeGenerator;
-import com.kakaopay.coupon.error.exception.CodeCollisionException;
-import com.kakaopay.coupon.error.exception.EmptyCodeException;
-import com.kakaopay.coupon.error.exception.EmptyEmailException;
-import com.kakaopay.coupon.error.exception.NotExistCouponException;
+import com.kakaopay.coupon.error.exception.*;
 import com.kakaopay.coupon.model.Coupon;
 import com.kakaopay.coupon.repository.CouponRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -44,14 +41,8 @@ public class CouponService {
     }
 
     @Transactional(readOnly = true)
-    public List<Coupon> getByEmail(String email) {
+    public Coupon getByEmail(String email) {
         return couponRepo.findByEmail(email);
-    }
-
-    // Using for test
-    @Transactional(readOnly = true)
-    protected Coupon getLastByEmail(String email) {
-        return couponRepo.findByEmailOrderByIdDesc(email);
     }
 
     @Transactional
@@ -64,7 +55,10 @@ public class CouponService {
         if (StringUtils.isEmpty(code)) {
             log.warn("CouponService - create : empty code");
             throw new EmptyCodeException("Fail to create Coupon. Code is null or empty.");
+        } else if (couponRepo.existsByEmail(email)) {
+            throw new DuplicateEmailException("Fail to create Coupon. Already coupon issued for this mail");
         }
+
         Coupon coupon = new Coupon(email, code);
         couponRepo.save(coupon);
         log.info("CouponService - create : success with coupon code : {}", coupon.getCode());

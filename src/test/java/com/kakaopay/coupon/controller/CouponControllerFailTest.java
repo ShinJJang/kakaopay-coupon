@@ -2,9 +2,11 @@ package com.kakaopay.coupon.controller;
 
 import com.kakaopay.coupon.error.ErrorController;
 import com.kakaopay.coupon.error.ErrorInfo;
+import com.kakaopay.coupon.error.exception.DuplicateEmailException;
 import com.kakaopay.coupon.error.exception.EmptyEmailException;
 import com.kakaopay.coupon.error.exception.InvalidEmailException;
 import com.kakaopay.coupon.error.exception.NotExistCouponException;
+import com.kakaopay.coupon.model.Coupon;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -102,6 +104,25 @@ public class CouponControllerFailTest {
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(response.getBody().getErrorCode()).isEqualTo(InvalidEmailException.errorCode);
+    }
+
+    @Test
+    public void createCoupon_Duplicate_Email() throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+
+        Map<String, String> map = new HashMap<>();
+        String email = "same@same.com";
+        map.put("email", email);
+
+        HttpEntity<Map<String, String>> request = new HttpEntity<>(map, headers);
+
+        restTemplate.postForEntity("/api/v1/coupon", request, Coupon.class);
+        ResponseEntity<ErrorInfo> response = restTemplate.postForEntity("/api/v1/coupon", request, ErrorInfo.class);
+        log.info("createCoupon_Duplicate_Email: " + response);
+        assertThat(response).isNotNull();
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(response.getBody().getErrorCode()).isEqualTo(DuplicateEmailException.errorCode);
     }
 
     @Test
