@@ -7,6 +7,7 @@
           <el-input
             placeholder="user@email.com"
             v-model="email"
+            @keyup.enter.native="issueCoupon"
             clearable>
           </el-input>
         </div>
