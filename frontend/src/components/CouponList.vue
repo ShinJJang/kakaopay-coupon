@@ -56,7 +56,7 @@ export default {
   data: function () {
     return {
       couponList: [],
-      itemSizePerPage: 15,
+      itemSizePerPage: 10,
       currentPage: 1,
       totalPages: 1,
       totalItems: 1,
