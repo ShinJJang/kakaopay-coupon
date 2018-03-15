@@ -56,7 +56,7 @@ public class CouponService {
             log.warn("CouponService - create : empty code");
             throw new EmptyCodeException("Fail to create Coupon. Code is null or empty.");
         } else if (couponRepo.existsByEmail(email)) {
-            throw new DuplicateEmailException("Fail to create Coupon. Already coupon issued for this mail");
+            throw new DuplicateEmailException("Fail to create Coupon. Already coupon issued for this mail.");
         }
 
         Coupon coupon = new Coupon(email, code);
