@@ -143,13 +143,14 @@ org.projectlombok:lombok |
 - [x] H2 DB 연동 (in memory)
 - [x] Hello World API 테스트로 기폰 프로젝트 템플릿을 검증
 - [x] TDD 기반으로 API 구현
-- [ ] 프론트 구현
+- [x] 프론트 구현
     - [x] 라우팅
     - [x] 레이아웃(sidebar vs header)
     - [x] API로 데이터를 받아와 페이징
     - [x] 이메일로 쿠폰 생성
     - [ ] Item size per page 변경
-- [ ] README 마무리하기
+    - [ ] Dynamically update pagination (강제 렌더링 말고는 업데이트할 이벤트를 못찾음)
+- [x] README 마무리하기
     - [x] 실행방법
     - [x] 기술스택 명시
     - [x] 폴더 트리 설명
@@ -164,7 +165,6 @@ org.projectlombok:lombok |
 ## 고려한 사항
 - Why Java 1.8 
 - Why Vue.js
-- Why Webpack
 - Why H2 DB
 - Is page button on top or bottom of contents?
     - http://blogs.wayne.edu/web/2012/03/16/a-better-return-to-top-experience/
