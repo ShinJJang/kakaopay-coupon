@@ -1,5 +1,6 @@
 package com.kakaopay.coupon.service;
 
+import com.kakaopay.coupon.model.dto.CouponCreateDTO;
 import com.kakaopay.coupon.core.CodeGenerator;
 import com.kakaopay.coupon.error.exception.*;
 import com.kakaopay.coupon.model.Coupon;
@@ -11,8 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-
-import java.util.List;
 
 @Slf4j
 @Service
@@ -47,19 +46,24 @@ public class CouponService {
 
     @Transactional
     public Coupon create(String email) {
-        if (StringUtils.isEmpty(email)) {
-            log.info("CouponService - create : empty email");
+        return create(new CouponCreateDTO(email));
+    }
+
+    @Transactional
+    public Coupon create(CouponCreateDTO dto) {
+        if (StringUtils.isEmpty(dto.getEmail())) {
+            log.info("CouponService - create : empty dto");
             throw new EmptyEmailException("Fail to create Coupon. Email is null or empty.");
         }
         String code = generateUniqueCode();
         if (StringUtils.isEmpty(code)) {
             log.warn("CouponService - create : empty code");
             throw new EmptyCodeException("Fail to create Coupon. Code is null or empty.");
-        } else if (couponRepo.existsByEmail(email)) {
+        } else if (couponRepo.existsByEmail(dto.getEmail())) {
             throw new DuplicateEmailException("Fail to create Coupon. Already coupon issued for this mail.");
         }
 
-        Coupon coupon = new Coupon(email, code);
+        Coupon coupon = new Coupon(dto.getEmail(), code);
         couponRepo.save(coupon);
         log.info("CouponService - create : success with coupon code : {}", coupon.getCode());
         return coupon;

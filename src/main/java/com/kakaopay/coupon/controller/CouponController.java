@@ -1,5 +1,6 @@
 package com.kakaopay.coupon.controller;
 
+import com.kakaopay.coupon.model.dto.CouponCreateDTO;
 import com.kakaopay.coupon.error.exception.InvalidEmailException;
 import com.kakaopay.coupon.model.Coupon;
 import com.kakaopay.coupon.service.CouponService;
@@ -37,7 +38,7 @@ public class CouponController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/coupon", method = RequestMethod.POST, consumes = "application/json; charset=UTF-8")
-    public Coupon createCoupon(@RequestBody @Valid Coupon.CouponCreateDTO couponCreateDTO, BindingResult error) {
+    public Coupon createCoupon(@RequestBody @Valid CouponCreateDTO couponCreateDTO, BindingResult error) {
         if (error.hasErrors()) {
             for (ObjectError err :error.getAllErrors()) {
                 if (InvalidEmailException.errorCode.equals(err.getDefaultMessage())) {
@@ -46,6 +47,6 @@ public class CouponController {
                 }
             }
         }
-        return couponService.create(couponCreateDTO.getEmail());
+        return couponService.create(couponCreateDTO);
     }
 }

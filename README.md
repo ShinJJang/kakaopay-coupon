@@ -168,7 +168,7 @@ org.projectlombok:lombok |
 - [x] [인터뷰 질문 정리](interview-log.md)
 - [ ] [인터뷰 질문 중 대답하지 못하거나, 잘못 대답한 것에 대해 공부하여 정리](interview-question-to-learn.md)
 - [x] 잘못된 테스트 수정
-- [ ] DTO 사용의 모호함을 명확히 하기(모호한 것들 1.Contoller에서만 사용함. 그런데 서비스 레이어에 DTO를 넘기는게 맞나? 2.Model inner static class로 클래스를 찾기가 힘듬)
+- [x] DTO 사용의 모호함을 명확히 하기(모호한 것들 1.Contoller에서만 사용함. 그런데 서비스 레이어에 DTO를 넘기는게 맞나? 2.Model inner static class로 클래스를 찾기가 힘듬)
 
 ## 고려한 사항
 - Why Java 1.8 
