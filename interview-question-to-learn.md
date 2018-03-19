@@ -1,9 +1,86 @@
 - String builder buffer의 차이
+    - Multi thread safe의 여부
+        - buffer는 synchronized 가 들어있어서 thread safe
+    - 추가 질문
+        - +, concat까지 비교하면?
+        - +는 jdk 1.5 이후 부터는 buffer에서 builder로 컴파일되게 변경되었다는데 for loop에서 builder와 +는 차이가 나는가
+            - 왜냐하면 +는 builder.toString이기에 계속 메모리에 레퍼런스를 만들게 될거같아서
+        - 사용한 Component로 생성된 bean은 thread safe 한가?
+        - 즉, String builder를 꼭 써야만 하는 상황이였는가?
 - GC에 대한 설명
+    - (Java Garbage Collection)[http://d2.naver.com/helloworld/1329]
+    - (Garbage Collection 튜닝)[http://d2.naver.com/helloworld/37111]
+    - (Java Reference와 GC)[http://d2.naver.com/helloworld/329631]
 - JPA의 영속성
+    - http://whiteship.tistory.com/309
+    - http://wonwoo.ml/index.php/post/997
+    - https://github.com/slahsk/study/wiki/JPA-영속성-컨텍스트
+    - 추가 질문
+        - JPA repository를 통해 가져온 persistant object의 필드를 변경하면 굳이 save를 하지 않아도 update 되는가?
+        - 그렇다면 언제 반영되는가? 아니라면 persistant object는 어떻게 만들 수 있는가?
 - JPA에서 repository interface가 어떻게 인스턴스로 만들어 지는가?
+    - Repository interface를 search 하는 방법 
+        - 세줄 요약
+            - Annotation aspect 등으로 configuiration을 가져오는 auto-config loader를 통해, repository base package 정보를 담은 config를 만들어내고
+            - config와 interface와 합쳐서 BeanDefinition을 만듬
+            - Spring IoC를 통해 repository @Autowire에 DI
+                - 이 부분까지는 Deep dive하지 않음
+        - 검색 키워드가 이상한지 잘 설명된 글을 못찾음. 그래서 코드를 까보았음
+        - EnableJpaRepositories annotation에 base package가 명시되어 있음
+        - 그래서 위 annotation을 사용하는 method call의 역순으로 call stack을 알아봄(IDE를 이용해 method usage만을 타고 올라간 것이기에 실제 Call stack과는 다를 수 있음)
+            - org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfigureRegistrar
+                - `getAnnotation`
+            - org.springframework.boot.autoconfigure.data.AbstractRepositoryConfigurationSourceSupport 
+                - `getConfigurationSource`: 여기서 `AnnotationRepositoryConfigurationSource`를 반환
+                - `registerBeanDefinitions`
+            - org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader
+                - `loadBeanDefinitionsFromRegistrars`
+                - `loadBeanDefinitionsForConfigurationClass`
+                - `loadBeanDefinitions`
+            - org.springframework.context.annotation.ConfigurationClassPostProcessor 
+                - `processConfigBeanDefinitions`
+                - `postProcessBeanDefinitionRegistry`
+            - org.springframework.context.support.PostProcessorRegistrationDelegate 
+                - `invokeBeanDefinitionRegistryPostProcessors`
+                - `invokeBeanFactoryPostProcessors`
+            - org.springframework.context.support.AbstractApplicationContext 
+                - `invokeBeanFactoryPostProcessors`
+                - `refresh`
+            - org.springframework.boot.SpringApplication 
+                - `refresh`
+                - `refreshContext`
+                - `run`
+        - 이로써 Spring 어플리케이션 실행과 함께 JPA 어노테이션 정보가 사용됨을 확인
+        - Base Package를 통해 repository interaface를 찾고 instance로 만드는 부분을 찾아봄
+            - org.springframework.boot.autoconfigure.data.AbstractRepositoryConfigurationSourceSupport  
+                - `getConfigurationSource`에서 `AnnotationRepositoryConfigurationSource` 인스턴스를 생성
+                - getBasePackages를 override
+                - getBasePackages의 return은 annotation으로부터 가져온 정보를 사용
+                    - org.springframework.data.repository.config.AnnotationRepositoryConfigurationSource
+                        - `getBasePackages`
+            - `AnnotationRepositoryConfigurationSource` 인스턴스를 인자로하여 `RepositoryConfigurationDelegate` 인스턴스를 `registerBeanDefinitions`에서 생성하고 chaining으로 `registerRepositoriesIn`를 호출하여 BeanDefinition을 만듬
+                - org.springframework.data.repository.config.RepositoryConfigurationSourceSupport
+                    - `getCandidates`
+                - org.springframework.boot.autoconfigure.data.AbstractRepositoryConfigurationSourceSupport  
+                    - `registerBeanDefinitions`
+                    - `registerRepositoriesIn`
+            - Spring IoC로 @Autowire에 DI
+        
+    - Interface가 initialize 가 되는 방법
+        - (RepositoryFactorySupport)[https://github.com/spring-projects/spring-data-commons/blob/master/src/main/java/org/springframework/data/repository/core/support/RepositoryFactorySupport.java#L287]을 상속한 (JpaRepositoryFactory)[https://github.com/spring-projects/spring-data-jpa/blob/master/src/main/java/org/springframework/data/jpa/repository/support/JpaRepositoryFactory.java]를 통해서 생성
+        - RepositoryFactorySupport getRepository method를 확인
+        - Proxy를 통해서 생성됨
+            - (Spring AOP 원리 - Proxy로 구현)[http://wonwoo.ml/index.php/post/1576]
+            - (Java Dynamic proxy - java.lang.reflection)[http://babtingdev.tistory.com/308]
+        - Spring을 사용한 개발자는 CrudRepository, JpaRepository, PageAndSortRepository 등 상속하여 Interface을 만들면 Target을 Spring JPA에서 구현한 Impl class를 사용
+    - Named Method를 가능케하는 sql method generator는?
+        - TODO
 - Custom Exception을 Runtime Exception으로 사용한 이유
 - Checked Exception VS Unchecked Exception
 - DTO 사용 의도
-- DTO가 Model package의 coupon inner static class인 이유
-- (self)DTO가 Service layer까지 사용되어도 되는가?
+    - DTO가 Model package의 coupon inner static class인 이유
+    - (self)DTO가 Service layer까지 사용되어도 되는가?
+    - https://martinfowler.com/bliki/LocalDTO.html
+    - https://www.slipp.net/questions/93
+    - https://www.slipp.net/questions/22
+    
