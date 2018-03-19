@@ -1,0 +1,9 @@
+- String builder buffer의 차이
+- GC에 대한 설명
+- JPA의 영속성
+- JPA에서 repository interface가 어떻게 인스턴스로 만들어 지는가?
+- Custom Exception을 Runtime Exception으로 사용한 이유
+- Checked Exception VS Unchecked Exception
+- DTO 사용 의도
+- DTO가 Model package의 coupon inner static class인 이유
+- (self)DTO가 Service layer까지 사용되어도 되는가?
