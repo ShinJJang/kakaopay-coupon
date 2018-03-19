@@ -8,9 +8,9 @@
         - 사용한 Component로 생성된 bean은 thread safe 한가?
         - 즉, String builder를 꼭 써야만 하는 상황이였는가?
 - GC에 대한 설명
-    - (Java Garbage Collection)[http://d2.naver.com/helloworld/1329]
-    - (Garbage Collection 튜닝)[http://d2.naver.com/helloworld/37111]
-    - (Java Reference와 GC)[http://d2.naver.com/helloworld/329631]
+    - [Java Garbage Collection](http://d2.naver.com/helloworld/1329)
+    - [Garbage Collection 튜닝](http://d2.naver.com/helloworld/37111)
+    - [Java Reference와 GC](http://d2.naver.com/helloworld/329631)
 - JPA의 영속성
     - http://whiteship.tistory.com/309
     - http://wonwoo.ml/index.php/post/997
@@ -67,12 +67,12 @@
             - Spring IoC로 @Autowire에 DI
         
     - Interface가 initialize 가 되는 방법
-        - (RepositoryFactorySupport)[https://github.com/spring-projects/spring-data-commons/blob/master/src/main/java/org/springframework/data/repository/core/support/RepositoryFactorySupport.java#L287]을 상속한 (JpaRepositoryFactory)[https://github.com/spring-projects/spring-data-jpa/blob/master/src/main/java/org/springframework/data/jpa/repository/support/JpaRepositoryFactory.java]를 통해서 생성
+        - [RepositoryFactorySupport](https://github.com/spring-projects/spring-data-commons/blob/master/src/main/java/org/springframework/data/repository/core/support/RepositoryFactorySupport.java#L287)을 상속한 [JpaRepositoryFactory](https://github.com/spring-projects/spring-data-jpa/blob/master/src/main/java/org/springframework/data/jpa/repository/support/JpaRepositoryFactory.java)를 통해서 생성
         - RepositoryFactorySupport getRepository method를 확인
         - Proxy를 통해서 생성됨
-            - (Spring AOP 원리 - Proxy로 구현)[http://wonwoo.ml/index.php/post/1576]
-            - (Java Dynamic proxy - java.lang.reflection)[http://babtingdev.tistory.com/308]
-        - Spring을 사용한 개발자는 CrudRepository, JpaRepository, PageAndSortRepository 등 상속하여 Interface을 만들면 Target을 Spring JPA에서 구현한 Impl class를 사용
+            - [Spring AOP 원리 - Proxy로 구현](http://wonwoo.ml/index.php/post/1576)
+            - [Java Dynamic proxy - java.lang.reflection](http://babtingdev.tistory.com/308)
+        - CrudRepository, JpaRepository, PageAndSortRepository 등 상속하여 Interface을 만들면 Target을 Spring JPA에서 구현한 Impl class를 사용
     - Named Method를 가능케하는 sql method generator는?
         - TODO
 - Custom Exception을 Runtime Exception으로 사용한 이유
