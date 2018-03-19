@@ -112,7 +112,7 @@ org.projectlombok:lombok |
 ## 문제 해결
 - 쿠폰번호 생성은 라이브러리 사용없이 직접 구현
     - 기본 아이디어
-        - 쿠폰 코드에 가능한 글자 [0-9a-zA-Z]로, 61(=9+26*2) 글자를 한 String 변수로 만듬
+        - 쿠폰 코드에 가능한 글자 [0-9a-zA-Z]로, 62(=10+26*2) 글자를 한 String 변수로 만듬
         - 난수를 만들어 위 변수의 index로 부터 쿠폰 코드 한자리를 가져옴
         - 이것을 쿠폰 코드 자리수인 16번을 반복하여 코드를 만듬
     - Index를 고르는 랜덤한 난수가 중요
@@ -167,7 +167,7 @@ org.projectlombok:lombok |
 ## After Interview, TODO
 - [x] [인터뷰 질문 정리](interview-log.md)
 - [ ] [인터뷰 질문 중 대답하지 못하거나, 잘못 대답한 것에 대해 공부하여 정리](interview-question-to-learn.md)
-- [ ] 잘못된 테스트 수정
+- [x] 잘못된 테스트 수정
 - [ ] DTO 사용의 모호함을 명확히 하기(모호한 것들 1.Contoller에서만 사용함. 그런데 서비스 레이어에 DTO를 넘기는게 맞나? 2.Model inner static class로 클래스를 찾기가 힘듬)
 
 ## 고려한 사항
